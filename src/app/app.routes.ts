@@ -3,7 +3,6 @@ import {PageDeConnexion} from './component/page-de-connexion/page-de-connexion';
 import {Home} from './component/home/home';
 import {authGuard} from './AuthGuard/auth-guard';
 
-export const routes: Routes = [];
 export const routes: Routes = [
   {path: 'login', component: PageDeConnexion},
   {path:'home',

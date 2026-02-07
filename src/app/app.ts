@@ -7,7 +7,6 @@ import {PageDeConnexion} from './component/page-de-connexion/page-de-connexion';
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet],
   imports: [RouterOutlet, Navbar, Home, PageDeConnexion],
   templateUrl: './app.html',
   styleUrl: './app.scss'
