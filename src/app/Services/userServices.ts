@@ -11,8 +11,6 @@ export class userService {
   constructor() {}
 
   private http = inject (HttpClient)
-  getUser() : Observable<User[]> {
-    return this.http.get<User[]>(`${this.baseUrl}` + "/users")
   login(credantials : any) : Observable<User> {
     return this.http.post<User>(`${this.baseUrl }` + "/login", credantials)
   }

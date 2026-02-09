@@ -27,7 +27,6 @@ import {User} from '../../Interfaces/IUser';
   styleUrl: './home.scss',
 })
 export class Home implements OnInit{
-  user = signal<User|undefined>(undefined);
   user = signal<User|string>("Florian");
   products = signal<Products[]>([]);
   loading = signal<boolean> (true);
@@ -56,4 +55,3 @@ export class Home implements OnInit{
     })
     }
   }
-

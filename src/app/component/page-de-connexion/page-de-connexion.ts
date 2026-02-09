@@ -1,7 +1,6 @@
 import {Component, inject, signal} from '@angular/core';
 import {userService} from '../../Services/userServices';
 import {User} from '../../Interfaces/IUser';
-import {FormBuilder, Validators, FormGroup, FormControl, ReactiveFormsModule} from '@angular/forms';
 import {FormBuilder, Validators, FormGroup, FormControl, ReactiveFormsModule, FormsModule} from '@angular/forms';
 import {Router} from '@angular/router';
 import {ProgressSpinner} from 'primeng/progressspinner';
@@ -13,7 +12,6 @@ import {LoginUser} from '../../Interfaces/LoginUser';
   imports: [
     ReactiveFormsModule,
     ProgressSpinner,
-    ToastModule
     ToastModule,
     FormsModule
   ],
@@ -43,9 +41,6 @@ export class PageDeConnexion {
   )
 
   private userService = inject(userService);
-  onSubmit(){
-    if(this.formCreateAccount.value.password != this.formCreateAccount.value.password_confirmation){
-      alert("Les deux mots de passe ne correspondent pas");
 
   onSubmit(mode: 'signup' | 'signin') {
     if (mode === 'signup') {
@@ -62,7 +57,6 @@ export class PageDeConnexion {
       return;
     }
     if(this.formCreateAccount.valid){
-      this.sendData(this.formCreateAccount.value as User);
       this.loadingMessage.set("Création du compte");
       this.sendData(this.formCreateAccount.value as User)
     }
