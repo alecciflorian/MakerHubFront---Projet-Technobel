@@ -28,6 +28,7 @@ import {User} from '../../Interfaces/IUser';
 })
 export class Home implements OnInit{
   user = signal<User|undefined>(undefined);
+  user = signal<User|string>("Florian");
   products = signal<Products[]>([]);
   loading = signal<boolean> (true);
   error = signal<string|null>(null);
@@ -38,6 +39,7 @@ export class Home implements OnInit{
 
   ngOnInit(): void {
     this.loadProduct();
+    this.user;
 }
 
   loadProduct() : void {

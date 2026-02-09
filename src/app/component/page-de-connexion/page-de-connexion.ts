@@ -2,9 +2,11 @@ import {Component, inject, signal} from '@angular/core';
 import {userService} from '../../Services/userServices';
 import {User} from '../../Interfaces/IUser';
 import {FormBuilder, Validators, FormGroup, FormControl, ReactiveFormsModule} from '@angular/forms';
+import {FormBuilder, Validators, FormGroup, FormControl, ReactiveFormsModule, FormsModule} from '@angular/forms';
 import {Router} from '@angular/router';
 import {ProgressSpinner} from 'primeng/progressspinner';
 import { ToastModule } from 'primeng/toast';
+import {LoginUser} from '../../Interfaces/LoginUser';
 
 @Component({
   selector: 'app-page-de-connexion',
@@ -12,6 +14,8 @@ import { ToastModule } from 'primeng/toast';
     ReactiveFormsModule,
     ProgressSpinner,
     ToastModule
+    ToastModule,
+    FormsModule
   ],
   templateUrl: './page-de-connexion.html',
   styleUrl: './page-de-connexion.scss',
@@ -22,6 +26,7 @@ export class PageDeConnexion {
   user = signal<User|undefined>(undefined);
   private router = inject(Router);
   isLoading = signal<boolean> (false);
+  loadingMessage = signal('');
   formCreateAccount = new FormGroup(
     {
       username: new FormControl('', { nonNullable: true, validators: [Validators.required] }),
@@ -30,14 +35,43 @@ export class PageDeConnexion {
       password_confirmation: new FormControl('', {nonNullable: true, validators:  [Validators.required]}),
     }
   )
+  formSignIn = new FormGroup(
+    {
+      username: new FormControl('', Validators.required),
+      password: new FormControl('', Validators.required),
+    }
+  )
 
   private userService = inject(userService);
   onSubmit(){
     if(this.formCreateAccount.value.password != this.formCreateAccount.value.password_confirmation){
       alert("Les deux mots de passe ne correspondent pas");
+
+  onSubmit(mode: 'signup' | 'signin') {
+    if (mode === 'signup') {
+      this.handleSignUp();
+    } else {
+      this.handleSignIn();
+    }
+  }
+
+  private handleSignUp() {
+    const {password, password_confirmation} = this.formCreateAccount.value;
+    if (password != password_confirmation) {
+      alert("Les mots de passes ne correspondent pas. Veuillez réessayer");
+      return;
     }
     if(this.formCreateAccount.valid){
       this.sendData(this.formCreateAccount.value as User);
+      this.loadingMessage.set("Création du compte");
+      this.sendData(this.formCreateAccount.value as User)
+    }
+  }
+
+  private handleSignIn() {
+    if(this.formSignIn.valid){
+        this.loadingMessage.set("Connexion en cours");
+        this.getData(this.formSignIn.value as User);
     }
   }
 
@@ -56,4 +90,20 @@ export class PageDeConnexion {
       }
     })
   }
+  getData(userdata : LoginUser){
+    this.isLoading.set(true);
+    this.userService.login(userdata).subscribe({
+      next: (data : User)=> {
+        this.user.set(data);
+        setTimeout(()=> {
+          this.router.navigate(["/home"]);
+        })
+      },
+      error: error => {
+        console.log(error, "Impossible de récupérer l'utilisateur")
+        this.isLoading.set(false);
+      }
+    })
+  }
 }
+
