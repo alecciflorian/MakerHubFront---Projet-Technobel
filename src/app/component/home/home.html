@@ -1,43 +1,40 @@
-@if(loading()){
-    <div id="cardLoader">
-          <p-progressSpinner></p-progressSpinner>
-    </div>
-}
-
-@if(error()){
-    <p-card>
-      {{ error() }}
-    </p-card>
-}
-
 @if(!loading() && !error()){
-  <div>
-    <p>Bienvenue {{user()}}</p>
+  <div id="mainContainer">
+
+    <aside id="sidebar">
+      <button class="buttonSidebar">Le FoodTruck</button> 
+      <button class="buttonSidebar">Le CofeeTruck</button> 
+      <button class="buttonSidebar">L'AperitzTruck</button> 
+    </aside>
+
+    <div id="dashboardContent">
+      @if(user(); as u){
+        <p>Bienvenue {{ u.username }}</p>
+      }
+
+      <p-table [value]="products()" [paginator]="true" [rows]="5" showCurrentPageReport="true" [tableStyle]="{ 'width': '100%' }">
+        <ng-template pTemplate="header">
+          <tr>
+            <th>Nom</th>
+            <th>Quantité</th>
+            <th>Type</th>
+            <th>Catégorie</th>
+            <th>Ajouter</th>
+            <th>Supprimer</th>
+          </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-product>
+          <tr>
+            <td>{{ product.name }}</td>
+            <td>{{ product.quantity }}</td>
+            <td>{{ product.type }}</td>
+            <td>{{ product.category.name ?? 'Pas de catégorie' }}</td>
+            <td><p-button label="Ajouter" severity="success" /></td>
+            <td><p-button label="Supprimer" severity="danger" /></td>
+          </tr>
+        </ng-template>
+      </p-table>
+    </div>
+
   </div>
-    <p-table [value]="products()" [tableStyle]="{ 'min-width': '50rem' }">
-      <ng-template pTemplate="header">
-        <tr>
-          <th>Nom</th>
-          <th>Quantité</th>
-          <th>Type</th>
-          <th>Catégorie</th>
-          <th>Ajouter</th>
-          <th>Supprimer</th>
-        </tr>
-      </ng-template>
-      <ng-template pTemplate="body" let-product>
-        <tr>
-          <td>{{ product.name }}</td>
-          <td>{{ product.quantity }}</td>
-          <td>{{ product.type }}</td>
-          <td>{{ product.category.name }}</td>
-          <td>
-             <p-button label="Ajouter" severity="success" />
-          </td>
-          <td>
-             <p-button label="Supprimer" severity="danger" />
-          </td>
-        </tr>
-      </ng-template>
-    </p-table>
 }

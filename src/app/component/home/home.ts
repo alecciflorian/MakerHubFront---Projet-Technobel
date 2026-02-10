@@ -11,7 +11,7 @@ import { ProgressSpinnerModule } from 'primeng/progressspinner';
 import {delay} from 'rxjs';
 import {Navbar} from '../navbar/navbar';
 import {User} from '../../Interfaces/IUser';
-
+import { AuthService } from '../../Services/AuthService';
 @Component({
   selector: 'app-home',
   imports: [
@@ -21,24 +21,28 @@ import {User} from '../../Interfaces/IUser';
     ChartModule,
     ButtonModule,
     ProgressSpinnerModule,
-    Navbar
   ],
   templateUrl: './home.html',
   styleUrl: './home.scss',
 })
 export class Home implements OnInit{
-  user = signal<User|string>("Florian");
+  
+  constructor() {
+  }
   products = signal<Products[]>([]);
   loading = signal<boolean> (true);
   error = signal<string|null>(null);
-
-  constructor() {
-  }
   private productsService = inject(productsService)
+  private readonly authService = inject(AuthService)
+  user = this.authService.currentUser;
 
   ngOnInit(): void {
+    this.authService.getUser;
     this.loadProduct();
-    this.user;
+}
+
+handleLogout(){
+  this.authService.logout()
 }
 
   loadProduct() : void {

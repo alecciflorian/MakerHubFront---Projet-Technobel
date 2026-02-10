@@ -4,6 +4,15 @@
     <a href="">
       <img id="logo" src="logoFoodTruck.jpg" alt="Logo">
     </a>
+
+    <div id="deconnexionButton">
+
+      @if(user()){
+        <button id="logout-btn" (click)="onLogout()">Se déconnecter</button>
+      }
+    </div>
+    
+
   </div>
 
   <div class="spacer"></div>

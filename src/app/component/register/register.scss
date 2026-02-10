@@ -14,15 +14,12 @@
   width: 100%;
 }
 
-
 #displayForm {
   display: flex;
-  position: relative;
   justify-content: center;
   align-items: center;
   min-height: 80vh;
-  flex-grow: 1;
-  z-index: 1;
+  flex-grow: 1
 }
 
 
@@ -41,20 +38,22 @@ form {
   align-items: center;
   width: 400px;
   height: 450px;
-  padding: 20px;
+  padding: 50px;
+  padding-top: 10px;
+  padding-bottom: 10px;
   margin: 0;
   border: none;
   font-family: 'Inter', sans-serif;
 }
 
-#formCreateAccount {
+
+
+#formSignIn {
   background-color: black;
   color: white;
 }
 
-
-
-#inputFormCreateAccount {
+#inputFormSignIn {
   display: flex;
   flex-direction: column;
   width: 80%;
@@ -69,7 +68,7 @@ input {
   border-radius: 5px;
   border: 1px solid #ccc;
 }
-#buttonNavSignIn{
+#buttonCreateAcc{
   background: black;
   color: white;
   margin-top: 20px;
@@ -79,11 +78,11 @@ input {
 }
 
 #buttonNavCreateAcc{
+  background: black;
+  color: white;
   margin-top: 20px;
   padding: 10px;
   border-radius: 15px;
-  background-color: white;
-  color: black;
   cursor: pointer;
 }
 
@@ -105,4 +104,14 @@ input {
     font-size: 100px;
     font-weight: bold;
     font-family: 'Inter', sans-serif;
+  }
+
+  #connexionAcc{
+    background: white;
+    border: 2px solid black;
+    color: black;
+    margin-top: 20px;
+    padding: 10px;
+    border-radius: 15px;
+    cursor: pointer;
   }

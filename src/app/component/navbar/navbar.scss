@@ -1,9 +1,24 @@
 #container-logo{
   display: flex;
-  justify-content: center;
+  justify-content: space-between;
   align-items: center;
   background-color: black;
+  padding: 0 20px;
 }
 #logo{
   height: 80px;
+}
+
+#logout-btn {
+    background-color: #e74c3c;
+    color: white;
+    border: none;
+    padding: 8px 15px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 0.9rem;
+}
+
+#deconnexionButton{
+  display: flex;
 }

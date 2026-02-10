@@ -1,6 +1,31 @@
-#cardLoader{
+#mainContainer {
+  display: flex; 
+  width: 100%;
+}
+
+#sidebar {
+  width: 250px;
+  min-width: 250px;
+  height: 100vh;
+  background-color: #1a1a1a;
+  border-right: 2px solid white;
   display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 70vh;
+  flex-direction: column;
+  padding: 20px;
+  gap: 10px;
+}
+
+#dashboardContent {
+  flex-grow: 1; 
+}
+
+.buttonSidebar {
+  width: 100%;
+  padding: 10px;
+  background: transparent;
+  color: white;
+  border: 1px solid #333;
+  border-radius: 8px;
+  cursor: pointer;
+  text-align: left;
 }

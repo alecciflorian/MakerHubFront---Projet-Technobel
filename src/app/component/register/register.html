@@ -1,0 +1,37 @@
+<div id="backgroundImage"></div>
+@if(!isLoading()){
+  <div id="displayForm">
+    <div id="formDisplay">
+      <form [formGroup]="formCreateAccount" id="formSignIn" action="" (ngSubmit)="onSubmit()">
+        <div id="formNav">
+          <h1>Créer un compte</h1>
+        </div>
+        <div id="inputFormSignIn">
+          <label for="user2">Nom d'utilisateur:</label>
+          <input placeholder="Entrez votre nom d'utilisateur" formControlName="username" type="text" id="user2">
+          <label for="email">E-mail:</label>
+          <input placeholder="Entrez votre adresse mail" formControlName="email" type="email" id="email">
+          <label for="pass2">Mot de passe:</label>
+          @if (formCreateAccount.controls.password.invalid && formCreateAccount.controls.password.touched) {
+            <li class="error-messages">* Votre mot de passe doit faire au moins 8 caractères et contenir un caractère spécial.</li>
+          }
+          <input placeholder="Entrez votre mot de passe" formControlName="password" type="password" id="pass2">
+          <label for="passConfirm">Confirmer le mot de passe:</label>
+          @if (formCreateAccount.value.password != formCreateAccount.value.password_confirmation && formCreateAccount.controls.password_confirmation.touched) {
+            <li class="error-messages">* Les mots de passe ne correspondent pas.</li>
+          }
+          <input placeholder="Confirmer votre mot de passe" formControlName="password_confirmation" type="password" id="passConfirm">
+          <button type="submit" [disabled]="formCreateAccount.invalid" id="buttonCreateAcc">S'inscrire</button>
+          <button id="connexionAcc" type="button" routerLink="/login">Déjà un compte ? Se connecter</button>
+        </div>
+      </form>
+    </div>
+  </div>
+}
+
+@if(isLoading()){
+  <div id="cardLoader">
+    <p-progressSpinner></p-progressSpinner>
+    <p id="p-createAccount">{{loadingMessage()}}</p>
+  </div>
+}
