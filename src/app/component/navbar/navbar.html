@@ -8,7 +8,17 @@
     <div id="deconnexionButton">
 
       @if(user()){
+        <p-toolbar id="custom-toolbar">
+          <ng-template #center>
+        <p-iconfield iconPosition="left">
+          <p-inputicon class="pi pi-search" />
+          <input type="text" pInputText placeholder="Recherche">
+        </p-iconfield>
+      </ng-template>
+          <ng-template #end>
         <button id="logout-btn" (click)="onLogout()">Se déconnecter</button>
+      </ng-template>
+        </p-toolbar>
       }
     </div>
     

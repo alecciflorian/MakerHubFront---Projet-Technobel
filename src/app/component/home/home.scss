@@ -1,3 +1,4 @@
+
 #mainContainer {
   display: flex; 
   width: 100%;
@@ -16,7 +17,11 @@
 }
 
 #dashboardContent {
-  flex-grow: 1; 
+  flex-grow: 1;
+  padding: 20px 40px;
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
 }
 
 .buttonSidebar {
@@ -28,4 +33,13 @@
   border-radius: 8px;
   cursor: pointer;
   text-align: left;
+}
+
+#bienvenueUsername{
+  font-size: x-large;
+  font-weight: bold;
+  font-family: Arial, Helvetica, sans-serif;
+  padding-top: 20px;
+  padding-bottom: 20px;
+  padding-left: 10px;
 }

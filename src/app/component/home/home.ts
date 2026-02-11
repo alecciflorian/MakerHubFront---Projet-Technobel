@@ -1,4 +1,4 @@
-import { Component, OnInit, signal, inject } from '@angular/core';
+import { Component, OnInit, signal, inject, PLATFORM_ID } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { CardModule } from 'primeng/card';
 import { TableModule } from 'primeng/table';
@@ -12,6 +12,10 @@ import {delay} from 'rxjs';
 import {Navbar} from '../navbar/navbar';
 import {User} from '../../Interfaces/IUser';
 import { AuthService } from '../../Services/AuthService';
+import { DialogModule } from 'primeng/dialog';
+import { InputTextModule } from 'primeng/inputtext';
+import { FormsModule } from '@angular/forms'; 
+
 @Component({
   selector: 'app-home',
   imports: [
@@ -21,6 +25,9 @@ import { AuthService } from '../../Services/AuthService';
     ChartModule,
     ButtonModule,
     ProgressSpinnerModule,
+    DialogModule,
+    InputTextModule,
+    FormsModule
   ],
   templateUrl: './home.html',
   styleUrl: './home.scss',
@@ -29,26 +36,39 @@ export class Home implements OnInit{
   
   constructor() {
   }
+  data : any
+  options : any
   products = signal<Products[]>([]);
   loading = signal<boolean> (true);
   error = signal<string|null>(null);
   private productsService = inject(productsService)
   private readonly authService = inject(AuthService)
   user = this.authService.currentUser;
+  categories = this.productsService.allCategories;
+  filteredProducts = this.productsService.filteredProducts;
+  visible : boolean = false;
 
   ngOnInit(): void {
-    this.authService.getUser;
+    this.authService.getUser();
     this.loadProduct();
 }
 
+showModal(){
+  this.visible = true;
+}
+
+changeTruck(truck: string | null){
+  this.productsService.selectedTruck.set(truck)
+}
+
 handleLogout(){
-  this.authService.logout()
+  this.authService.logout();
 }
 
   loadProduct() : void {
     this.productsService.getProducts().pipe(delay(1200)).subscribe({
       next : (data : Products[]) => {
-        this.products.set(data);
+        this.productsService.products.set(data)
         this.loading.set(false);
       },
         error: (err : HttpErrorResponse) => {
