@@ -9,14 +9,17 @@
 
   <div id="dashboardContent">
     @if(user(); as u){
-      <p id="bienvenueUsername">Bienvenue {{ u.userName }} 🍔</p>
+      <div id="bienvenueDiv">
+        <p>Bienvenue {{ u.userName }} 🍔</p>
+        <p-button styleClass="prime-slider-override" (onClick)="showModalNewProduct(products)" >Ajouter un nouveau produit</p-button>
+      </div>
     }
 
     <p-table [value]="filteredProducts()" [paginator]="true" [rows]="5">
       <ng-template pTemplate="header">
         <tr>
           <th>Nom</th>
-          <th>Quantité</th>
+          <th>Quantité</th>   
           <th>Type</th>
           <th>Ajouter</th>
           <th>Supprimer</th>
@@ -36,43 +39,103 @@
           </td>
           <td>{{ product.type }}</td>
           <td>
-            <p-button (onClick)="showModal()" label="Ajouter" severity="success" />
+            <p-button (onClick)="showModalAdd(product)" label="Ajouter" severity="success" />
           </td>
-          <td><p-button label="Supprimer" severity="danger" /></td>
+          <td><p-button (onClick)="showModalDelete(product)" label="Supprimer" severity="danger" /></td>
         </tr>
       </ng-template>
     </p-table>
   </div> 
-  <!-- <p-dialog 
-    header="Mise à jour des informations" 
-    [(visible)]="visible" 
-    [modal]="true" 
-    [style]="{ width: '25rem' }"
-    appendTo="body">
+  <p-dialog 
+  header="Ajout du produit" 
+  [(visible)]="visible" 
+  [modal]="true" 
+  [draggable]="false"
+  [resizable]="false"
+  [style]="{ width: '25rem' }">
+  
+  <div class="flex flex-column gap-3">
+    <span style="display: block; margin-bottom: 1rem; color: gray;">
+      Quelle quantité souhaitez-vous ajouter ?
+    </span>
     
-    <ng-template pTemplate="header">
-        <span class="font-bold">Amy Elsner</span>
-    </ng-template>
 
-    <div class="flex flex-column gap-3">
-      <span style="display: block; margin-bottom: 1rem; color: gray;">Update your information.</span>
-      
-      <div style="margin-bottom: 1rem;">
-          <label for="username" style="display: block; font-weight: bold; margin-bottom: 0.5rem;">Username</label>
-          <input pInputText id="username" style="width: 100%" autocomplete="off" />
-      </div>
-
-      <div>
-          <label for="email" style="display: block; font-weight: bold; margin-bottom: 0.5rem;">Email</label>
-          <input pInputText id="email" style="width: 100%" autocomplete="off" />
-      </div>
+    <div>
+      <label for="quantite" style="display: block; font-weight: bold; margin-bottom: 0.5rem;">
+        Quantité:
+      </label>
+      <input [value]="selectedProduct?.quantity" type="number" pInputText id="quantite" style="width: 100%" autocomplete="off" />
     </div>
 
-    <ng-template pTemplate="footer">
-        <p-button label="Cancel" [text]="true" severity="secondary" (onClick)="visible = false" />
-        <p-button label="Save" severity="primary" (onClick)="visible = false" />
-    </ng-template>
-  </p-dialog> -->
+  </div>
+
+  <ng-template pTemplate="footer">
+    <p-button label="Annuler" [text]="true" severity="secondary" (onClick)="visible = false" />
+    <p-button label="Ajouter" (onClick)="visible = false" />
+  </ng-template>
+</p-dialog>
+  <p-dialog 
+  header="Suppression du produit" 
+  [(visible)]="visibleDeleteProduct" 
+  [modal]="true" 
+  [draggable]="false"
+  [resizable]="false"
+  [style]="{ width: '25rem' }">
+  
+  <div class="flex flex-column gap-3">
+    <span style="display: block; margin-bottom: 1rem; color: gray;">
+      Quelle quantité souhaitez-vous supprimer ?
+    </span>
+    
+
+    <div>
+      <label for="quantite" style="display: block; font-weight: bold; margin-bottom: 0.5rem;">
+        Quantité:
+      </label>
+      <input [value]="selectedProduct?.quantity" type="number" pInputText id="quantite" style="width: 100%" autocomplete="off" />
+    </div>
+
+  </div>
+
+  <ng-template pTemplate="footer">
+    <p-button label="Annuler" [text]="true" severity="secondary" (onClick)="visible = false" />
+    <p-button label="Supprimer" (onClick)="visible = false" severity="danger"/>
+  </ng-template>
+</p-dialog>
+  <p-dialog 
+  header="Ajout du nouveau produit" 
+  [(visible)]="visibleNewProduct" 
+  [modal]="true" 
+  [draggable]="false"
+  [resizable]="false"
+  [style]="{ width: '25rem' }">
+  
+  <div class="flex flex-column gap-3">
+    <span style="display: block; margin-bottom: 1rem; color: gray;">
+      Ajout du nouveau produit
+    </span>
+    
+
+    <div>
+      <label for="name" style="display: block; font-weight: bold; margin-bottom: 0.5rem;">
+        Nom du produit
+      </label>
+      <input [value]="selectedProduct?.name" type="text" pInputText id="name" style="width: 100%" autocomplete="off" />
+    </div>
+    <div>
+      <label for="quantite" style="display: block; font-weight: bold; margin-bottom: 0.5rem;">
+        Quantité:
+      </label>
+      <input [value]="selectedProduct?.quantity" type="number" pInputText id="quantite" style="width: 100%" autocomplete="off" />
+    </div>
+
+  </div>
+
+  <ng-template pTemplate="footer">
+    <p-button label="Annuler" [text]="true" severity="secondary" (onClick)="visible = false" />
+    <p-button label="Sauvegarder" (onClick)="visible = false" />
+  </ng-template>
+</p-dialog>
 
 </div> 
 }

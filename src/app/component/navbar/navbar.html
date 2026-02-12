@@ -1,7 +1,7 @@
 <nav id="navBar">
 
   <div id="container-logo">
-    <a href="">
+    <a [routerLink]="user() ? '/home' : '/login' ">
       <img id="logo" src="logoFoodTruck.jpg" alt="Logo">
     </a>
 
@@ -12,7 +12,7 @@
           <ng-template #center>
         <p-iconfield iconPosition="left">
           <p-inputicon class="pi pi-search" />
-          <input type="text" pInputText placeholder="Recherche">
+          <input (input)="searchProduct($event)" pInputText placeholder="Recherche">
         </p-iconfield>
       </ng-template>
           <ng-template #end>
@@ -21,8 +21,6 @@
         </p-toolbar>
       }
     </div>
-    
-
   </div>
 
   <div class="spacer"></div>

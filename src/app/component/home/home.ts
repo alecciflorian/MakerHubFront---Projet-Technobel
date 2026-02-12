@@ -1,4 +1,4 @@
-import { Component, OnInit, signal, inject, PLATFORM_ID } from '@angular/core';
+import { Component, OnInit, signal, inject, PLATFORM_ID, computed } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { CardModule } from 'primeng/card';
 import { TableModule } from 'primeng/table';
@@ -12,9 +12,10 @@ import {delay} from 'rxjs';
 import {Navbar} from '../navbar/navbar';
 import {User} from '../../Interfaces/IUser';
 import { AuthService } from '../../Services/AuthService';
-import { DialogModule } from 'primeng/dialog';
+import { DialogModule, Dialog } from 'primeng/dialog';
 import { InputTextModule } from 'primeng/inputtext';
 import { FormsModule } from '@angular/forms'; 
+
 
 @Component({
   selector: 'app-home',
@@ -27,7 +28,9 @@ import { FormsModule } from '@angular/forms';
     ProgressSpinnerModule,
     DialogModule,
     InputTextModule,
-    FormsModule
+    FormsModule,
+    Navbar,
+    Dialog
   ],
   templateUrl: './home.html',
   styleUrl: './home.scss',
@@ -45,15 +48,34 @@ export class Home implements OnInit{
   private readonly authService = inject(AuthService)
   user = this.authService.currentUser;
   categories = this.productsService.allCategories;
-  filteredProducts = this.productsService.filteredProducts;
+  filteredProducts = this.productsService.productSearch;
+  selectedProduct : any = null;
   visible : boolean = false;
+  visibleDeleteProduct : boolean = false;
+  visibleNewProduct : boolean = false;
+
 
   ngOnInit(): void {
     this.authService.getUser();
     this.loadProduct();
 }
 
-showModal(){
+showSearchTerm(){
+  this.productsService.searchTerm
+}
+
+showModalNewProduct(product : any){
+  this.selectedProduct = product;
+  this.visibleNewProduct = true;
+}
+
+showModalDelete(product : any){
+  this.selectedProduct = product;
+  this.visibleDeleteProduct = true;
+}
+
+showModalAdd(product : any){
+  this.selectedProduct = product
   this.visible = true;
 }
 

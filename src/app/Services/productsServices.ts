@@ -44,17 +44,20 @@ export class productsService{
         ],
 };
 
-    filteredProducts = computed(() => {
-        //recupération de tous les produits
-        const allProduits = this.products();
-        //récupération du camion sélectionné
-        const truck = this.selectedTruck();
+  searchTerm = signal<string>('');
 
-        //si aucun truck sélectionner alors on retourne tous les produits
-        if(!truck){
-            return allProduits;
+  
+  filteredProducts = computed(() => {
+      //recupération de tous les produits
+      const allProduits = this.products();
+      //récupération du camion sélectionné
+      const truck = this.selectedTruck();
+      
+      //si aucun truck sélectionner alors on retourne tous les produits
+      if(!truck){
+          return allProduits;
         }
-
+        
         //on va chercher le dictionnaire et on choisi le truck
         const allowedCategories = this.truckMapping[truck];
         console.log("Catégories autorisées pour ce truck :", allowedCategories);
@@ -62,12 +65,22 @@ export class productsService{
         if(allowedCategories){
             const filtered = allProduits.filter(p => {
                 return allowedCategories.includes(p.type);      
-        })
-        //sinon on retourne tous les produits filtré par le type de truck
-        return filtered;
-    }
-    return allProduits;
-});
+            })
+            //sinon on retourne tous les produits filtré par le type de truck
+            return filtered;
+        }
+        return allProduits;
+    });
+    productSearch = computed(() => {
+      const search = this.searchTerm().toLowerCase().trim();
+      const list = this.filteredProducts();
+    
+      if(!search){
+          return list;
+      }
+    
+      return list.filter(p => p.name.toLowerCase().includes(search))
+    })
 
     allCategories = computed(() => {
         const produits = this.filteredProducts();

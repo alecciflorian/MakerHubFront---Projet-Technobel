@@ -5,6 +5,8 @@ import { Home } from './component/home/home';
 import {PageDeConnexion} from './component/page-de-connexion/page-de-connexion';
 
 
+
+
 @Component({
   selector: 'app-root',
   imports: [RouterOutlet, Navbar, Home, PageDeConnexion],
