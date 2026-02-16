@@ -23,7 +23,7 @@ export class Register {
   private userService = inject(userService);
   
   isLoading = signal<boolean>(false);
-  loadingMessage = signal('Création du compte');
+  loadingMessage = signal('');
   
   formCreateAccount = new FormGroup({
     username: new FormControl('', [Validators.required]),
@@ -57,7 +57,7 @@ export class Register {
         this.user.set(data);
         this.isLoading.set(false);
         alert("Compte créé avec succès !");
-        this.router.navigate(["/login"]);
+        this.router.navigate(["/home"]);
       },
       error: error => {
         console.log(error, "Impossible de créer l'utilisateur");

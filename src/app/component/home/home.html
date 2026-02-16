@@ -10,8 +10,8 @@
   <div id="dashboardContent">
     @if(user(); as u){
       <div id="bienvenueDiv">
-        <p>Bienvenue {{ u.userName }} 🍔</p>
-        <p-button styleClass="prime-slider-override" (onClick)="showModalNewProduct(products)" >Ajouter un nouveau produit</p-button>
+        <p>Bienvenue {{ u.userName }} {{logo()}}</p>
+        <p-button styleClass="prime-slider-override" (onClick)="showModalNewProduct(null)" >Ajouter un nouveau produit</p-button>
       </div>
     }
 
@@ -46,8 +46,9 @@
       </ng-template>
     </p-table>
   </div> 
+
   <p-dialog 
-  header="Ajout du produit" 
+  header="Ajout au stock" 
   [(visible)]="visible" 
   [modal]="true" 
   [draggable]="false"
@@ -56,25 +57,24 @@
   
   <div class="flex flex-column gap-3">
     <span style="display: block; margin-bottom: 1rem; color: gray;">
-      Quelle quantité souhaitez-vous ajouter ?
+      Combien de <strong>{{selectedProduct?.name}}</strong> voulez-vous ajouter ?
     </span>
-    
 
     <div>
-      <label for="quantite" style="display: block; font-weight: bold; margin-bottom: 0.5rem;">
-        Quantité:
+      <label for="quantite_add" style="display: block; font-weight: bold; margin-bottom: 0.5rem;">
+        Quantité à ajouter:
       </label>
-      <input [value]="selectedProduct?.quantity" type="number" pInputText id="quantite" style="width: 100%" autocomplete="off" />
+      <input [(ngModel)]="quantityProduct" type="number" pInputText id="quantite_add" style="width: 100%" autocomplete="off" />
     </div>
-
   </div>
 
   <ng-template pTemplate="footer">
     <p-button label="Annuler" [text]="true" severity="secondary" (onClick)="visible = false" />
-    <p-button label="Ajouter" (onClick)="visible = false" />
+    <p-button label="Confirmer" (onClick)="confirmQuantityAdd()" />
   </ng-template>
 </p-dialog>
-  <p-dialog 
+
+  <p-dialog   
   header="Suppression du produit" 
   [(visible)]="visibleDeleteProduct" 
   [modal]="true" 
@@ -84,26 +84,25 @@
   
   <div class="flex flex-column gap-3">
     <span style="display: block; margin-bottom: 1rem; color: gray;">
-      Quelle quantité souhaitez-vous supprimer ?
+      Quelle quantité de <strong>{{selectedProduct?.name}}</strong> souhaitez-vous retirer ?
     </span>
-    
 
     <div>
-      <label for="quantite" style="display: block; font-weight: bold; margin-bottom: 0.5rem;">
+      <label for="quantite_del" style="display: block; font-weight: bold; margin-bottom: 0.5rem;">
         Quantité:
       </label>
-      <input [value]="selectedProduct?.quantity" type="number" pInputText id="quantite" style="width: 100%" autocomplete="off" />
+      <input [(ngModel)]="quantityProduct" type="number" pInputText id="quantite_del" style="width: 100%" autocomplete="off" />
     </div>
-
   </div>
 
   <ng-template pTemplate="footer">
-    <p-button label="Annuler" [text]="true" severity="secondary" (onClick)="visible = false" />
-    <p-button label="Supprimer" (onClick)="visible = false" severity="danger"/>
+    <p-button label="Annuler" [text]="true" severity="secondary" (onClick)="visibleDeleteProduct = false" />
+    <p-button label="Supprimer" (onClick)="confirmQuantityDelete()" severity="danger"/>
   </ng-template>
 </p-dialog>
+
   <p-dialog 
-  header="Ajout du nouveau produit" 
+  header="Ajoute d'un nouveau produit" 
   [(visible)]="visibleNewProduct" 
   [modal]="true" 
   [draggable]="false"
@@ -111,29 +110,31 @@
   [style]="{ width: '25rem' }">
   
   <div class="flex flex-column gap-3">
-    <span style="display: block; margin-bottom: 1rem; color: gray;">
-      Ajout du nouveau produit
-    </span>
-    
-
     <div>
-      <label for="name" style="display: block; font-weight: bold; margin-bottom: 0.5rem;">
-        Nom du produit
-      </label>
-      <input [value]="selectedProduct?.name" type="text" pInputText id="name" style="width: 100%" autocomplete="off" />
+      <label for="new_name" style="display: block; font-weight: bold; margin-bottom: 0.5rem;">Nom du produit:</label>
+      <input [(ngModel)]="newName" type="text" pInputText id="new_name" style="width: 100%" />
     </div>
     <div>
-      <label for="quantite" style="display: block; font-weight: bold; margin-bottom: 0.5rem;">
-        Quantité:
-      </label>
-      <input [value]="selectedProduct?.quantity" type="number" pInputText id="quantite" style="width: 100%" autocomplete="off" />
+      <label for="new_quantite" style="display: block; font-weight: bold; margin-bottom: 0.5rem;">Quantité initiale:</label>
+      <input [(ngModel)]="newQuantity" type="number" pInputText id="new_quantite" style="width: 100%" />
     </div>
-
+    <div>
+      <label for="new_price" style="display: block; font-weight: bold; margin-bottom: 0.5rem;">Prix (Euros):</label>
+      <input [(ngModel)]="newPrice" type="number" pInputText id="new_price" style="width: 100%" />
+    </div>
+    <div>
+      <label for="new_type" style="display: block; font-weight: bold; margin-bottom: 0.5rem;">Type:</label>
+      <select [(ngModel)]="newType" name="new_type" id="">
+          @for(cat of categories(); track cat){
+            <option value="">{{cat}}</option>
+          }
+      </select>
+    </div>
   </div>
 
   <ng-template pTemplate="footer">
-    <p-button label="Annuler" [text]="true" severity="secondary" (onClick)="visible = false" />
-    <p-button label="Sauvegarder" (onClick)="visible = false" />
+    <p-button label="Annuler" [text]="true" severity="secondary" (onClick)="visibleNewProduct = false" />
+    <p-button label="Sauvegarder" (onClick)="addProduct()"/>
   </ng-template>
 </p-dialog>
 

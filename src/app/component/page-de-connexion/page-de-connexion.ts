@@ -26,7 +26,7 @@ export class PageDeConnexion {
   private authService = inject(AuthService);
   
   isLoading = signal<boolean>(false);
-  loadingMessage = signal('Connexion en cours');
+  loadingMessage = signal('');
   
   formSignIn = new FormGroup({
     username: new FormControl('', Validators.required),

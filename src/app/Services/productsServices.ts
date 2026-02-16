@@ -10,12 +10,30 @@ export class productsService{
     private baseUrl = "http://localhost:5164/";
     constructor() {}
     
-    products = signal<Products[]>([])
-    selectedTruck = signal<string | null>(null) 
+    products = signal<Products[]>([]);
+    selectedTruck = signal<string | null>(null);
+    quantityProducts = signal<number>(0);
     
     private http = inject (HttpClient)
     getProducts() : Observable<Products[]> {
-        return this.http.get<Products[]>(`${this.baseUrl}` + "products")
+        return this.http.get<Products[]>(`${this.baseUrl}` + "products");
+    
+    }
+  
+    updateProductQuantity(id : number, quantity : number) : Observable<Products>{
+        return this.http.patch<Products>(`${this.baseUrl}products/${id}`,{
+            quantity : quantity
+        });
+    } 
+
+    deleteProductQuantity(id : number, quantity : number) : Observable<Products>{
+        return this.http.patch<Products>(`${this.baseUrl}products/${id}`, {
+            quantity : quantity
+        })
+    }
+
+    addProduct(productData : {name : string, price : number, quantity : number ,type : string, }) : Observable<Products>{
+        return this.http.post<Products>(`${this.baseUrl}products/addProduct`, productData)
     }
 
     //Record va servir à définir le type "Clé, valeurs" (Clé de type string; valeurs de type string)
@@ -84,8 +102,8 @@ export class productsService{
 
     allCategories = computed(() => {
         const produits = this.filteredProducts();
-        const cat = produits.map(p => p.type).filter(Boolean);
         //évite les doublons
+        const cat = produits.map(p => p.type).filter(Boolean);
         //[...] = met tout le contenu du tableau dans un nouveau     
         return [...new Set(cat)]
     })
