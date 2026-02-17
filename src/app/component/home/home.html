@@ -1,3 +1,4 @@
+<p-toast />
 @if(!loading() && !error()){
 <div id="mainContainer">
   
@@ -70,7 +71,7 @@
 
   <ng-template pTemplate="footer">
     <p-button label="Annuler" [text]="true" severity="secondary" (onClick)="visible = false" />
-    <p-button label="Confirmer" (onClick)="confirmQuantityAdd()" />
+      <p-button label="Confirmer" (onClick)="confirmQuantityAdd()" />
   </ng-template>
 </p-dialog>
 
@@ -97,7 +98,7 @@
 
   <ng-template pTemplate="footer">
     <p-button label="Annuler" [text]="true" severity="secondary" (onClick)="visibleDeleteProduct = false" />
-    <p-button label="Supprimer" (onClick)="confirmQuantityDelete()" severity="danger"/>
+      <p-button label="Supprimer" (onClick)="confirmQuantityDelete()" severity="danger"/>
   </ng-template>
 </p-dialog>
 
@@ -134,7 +135,7 @@
 
   <ng-template pTemplate="footer">
     <p-button label="Annuler" [text]="true" severity="secondary" (onClick)="visibleNewProduct = false" />
-    <p-button label="Sauvegarder" (onClick)="addProduct()"/>
+      <p-button label="Sauvegarder" (onClick)="addProduct()"/>
   </ng-template>
 </p-dialog>
 

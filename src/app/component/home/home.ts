@@ -15,6 +15,9 @@
   import { DialogModule, Dialog } from 'primeng/dialog';
   import { InputTextModule } from 'primeng/inputtext';
   import { FormsModule } from '@angular/forms'; 
+  import { ToastModule } from 'primeng/toast';
+  import { RippleModule } from 'primeng/ripple';
+  import { MessageService } from 'primeng/api';
 
 
   @Component({
@@ -30,7 +33,9 @@
       InputTextModule,
       FormsModule,
       Navbar,
-      Dialog
+      Dialog,
+      ToastModule,
+      RippleModule,
     ],
     templateUrl: './home.html',
     styleUrl: './home.scss',
@@ -39,6 +44,7 @@
     
     constructor() {
     }
+    private messageService = inject(MessageService)
     data : any
     options : any
     products = signal<Products[]>([]);
@@ -67,6 +73,10 @@
       this.loadProduct();
   }
 
+  // showSuccessToast(){
+  //   this.messageService.add({severity : 'success', summary: 'Succes', detail: 'Produits ajouté avec succès'})
+  // }
+
     addProduct(){
       const payload = {
         name : this.newName(),
@@ -78,6 +88,7 @@
       if(payload.name.trim() && payload.type && payload.quantity && payload.price){
         this.productsService.addProduct(payload).subscribe({
           next : (addData) => {
+            this.messageService.add({severity : 'success', summary: 'Succes', detail: 'Produit ajouté avec succès'})
             //prends l'ancien tableau et rajoute les nouvelles valeurs 
             this.productsService.products.update(prev => [...prev, addData])
             this.visibleNewProduct = false;
@@ -118,6 +129,7 @@
       const newQuantityToDelete = this.selectedProduct.quantity - this.quantityProduct();
       this.productsService.deleteProductQuantity(this.selectedProduct.productId, newQuantityToDelete).subscribe({
         next : (deleteQuantityProduct) => {
+          this.messageService.add({severity : 'success', summary: 'Succes', detail: 'Quantité supprimée avec succès'})
           this.productsService.products.update(prev => prev.map(p => p.productId === deleteQuantityProduct.productId ? deleteQuantityProduct : p));
           this.visible = false;
           this.quantityProduct.set(0);
@@ -132,6 +144,7 @@
       const newQuantity = this.selectedProduct.quantity + this.quantityProduct();
       this.productsService.updateProductQuantity(this.selectedProduct.productId, newQuantity).subscribe({
         next : (updateProduct) => {
+          this.messageService.add({severity : 'success', summary: 'Succes', detail: 'Quantité ajoutée avec succès'})
           this.productsService.products.update(prev => prev.map(p => p.productId === updateProduct.productId ? updateProduct : p));
           this.visible = false;
           this.quantityProduct.set(0);
