@@ -7,6 +7,7 @@ import { InputText } from "primeng/inputtext";
 import { IconFieldModule } from 'primeng/iconfield';
 import { InputIconModule } from 'primeng/inputicon';
 import { productsService } from '../../Services/productsServices';
+import { ButtonDirective } from "primeng/button";
 
 @Component({
   selector: 'app-navbar',
@@ -16,6 +17,7 @@ import { productsService } from '../../Services/productsServices';
     IconFieldModule,
     InputIconModule,
     RouterLink,
+    ButtonDirective
 ],
   templateUrl: './navbar.html',
   styleUrl: './navbar.scss',
@@ -27,7 +29,15 @@ export class Navbar implements OnInit{
   private readonly router = inject(Router)
   imgUrl : string = "logoFoodTruck.jpg"
   user = this.authService.currentUser;
+  isDark = false;
 
+  toggleDarkMode(){
+    const element = document.querySelector('html');
+    if(element){
+      element.classList.toggle('dark-bg');
+      this.isDark = true;
+    }
+  }
 
   ngOnInit(): void {
     this.authService.getUser();

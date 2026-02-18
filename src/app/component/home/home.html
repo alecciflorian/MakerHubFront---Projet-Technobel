@@ -1,17 +1,43 @@
 <p-toast />
 @if(!loading() && !error()){
 <div id="mainContainer">
-  
+
   <aside id="sidebar">
     <button (click)="changeTruck('FoodTruck')" class="buttonSidebar">FoodTruck</button>
     <button (click)="changeTruck('CoffeeTruck')" class="buttonSidebar">CoffeeTruck</button>
     <button (click)="changeTruck('AperitzTruck')" class="buttonSidebar">AperitzTruck</button>
   </aside>
-
+  
   <div id="dashboardContent">
+    <div id="box">
+
+      <p-card class="dashboard-card info" id="boxDashboardAllProducts">
+    <div class="card-content">
+      <i class="pi pi-box"></i>
+      <span class="label">{{products().length}}</span>
+    </div>
+  </p-card>
+
+    <p-card class="dashboard-card danger" id="boxDashboardAlert">
+      <div class="card-content">
+        <i class="pi pi-exclamation-triangle"></i>
+        <span id="lowQuantitySpan" class="count">{{ lowQuantityProduct() }}</span>
+        <span class="label">Alertes Stock</span>
+    </div>
+  </p-card>
+    
+  <p-card class="dashboard-card success" id="boxDashboardProductAddDate">
+      <div class="card-content">
+        <i class="pi pi-truck"></i>
+        <span class="count">{{ logo() }}</span>
+        <span class="label">{{ truck() || 'Aucun' }}</span>
+    </div>
+  </p-card>
+    </div>
+    
     @if(user(); as u){
       <div id="bienvenueDiv">
-        <p>Bienvenue {{ u.userName }} {{logo()}}</p>
+        <p>Dashboard {{logo()}}</p>
         <p-button styleClass="prime-slider-override" (onClick)="showModalNewProduct(null)" >Ajouter un nouveau produit</p-button>
       </div>
     }
@@ -30,10 +56,8 @@
         <tr>
           <td>{{ product.name }}</td>
           <td>
-            @if(product.quantity < 10) {
-              <span style="color: #ef4444; font-weight: bold;">
-                {{ product.quantity }} <i class="pi pi-exclamation-triangle"></i>
-              </span>
+            @if(product.quantity != null) {
+              <p-badge [value]="product?.quantity" [severity]="stockSeverity(product)"></p-badge>
             } @else {
               {{ product.quantity }}
             }

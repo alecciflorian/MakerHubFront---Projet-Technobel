@@ -15,9 +15,10 @@ export class productsService{
     quantityProducts = signal<number>(0);
     
     private http = inject (HttpClient)
+
+
     getProducts() : Observable<Products[]> {
         return this.http.get<Products[]>(`${this.baseUrl}` + "products");
-    
     }
   
     updateProductQuantity(id : number, quantity : number) : Observable<Products>{

@@ -4,24 +4,25 @@
     <a [routerLink]="user() ? '/home' : '/login' ">
       <img id="logo" src="logoFoodTruck.jpg" alt="Logo">
     </a>
+  </div>
 
-    <div id="deconnexionButton">
-
-      @if(user()){
-        <p-toolbar id="custom-toolbar">
-          <ng-template #center>
+  @if(user()){
+    <p-toolbar id="custom-toolbar">
+      <ng-template #center>
         <p-iconfield iconPosition="left">
           <p-inputicon class="pi pi-search" />
           <input (input)="searchProduct($event)" pInputText placeholder="Recherche">
         </p-iconfield>
       </ng-template>
-          <ng-template #end>
-        <button id="logout-btn" (click)="onLogout()">Se déconnecter</button>
-      </ng-template>
-        </p-toolbar>
-      }
-    </div>
-  </div>
+    </p-toolbar>
 
-  <div class="spacer"></div>
+    <div id="deconnexionButton">
+      <button id="logout-btn" (click)="onLogout()">Se déconnecter</button>
+      <button pButton 
+              [icon]="isDark ? 'pi pi-sun' : 'pi pi-moon'" 
+              (click)="toggleDarkMode()">
+      </button>
+    </div>
+  }
+
 </nav>
