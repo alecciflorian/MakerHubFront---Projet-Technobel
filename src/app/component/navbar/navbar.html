@@ -1,12 +1,12 @@
 <nav id="navBar">
 
-  <div id="container-logo">
-    <a [routerLink]="user() ? '/home' : '/login' ">
-      <img id="logo" src="logoFoodTruck.jpg" alt="Logo">
-    </a>
-  </div>
-
+  
   @if(user()){
+    <div id="container-logo">
+      <a [routerLink]="user() ? '/home' : '/login' ">
+        <img id="logo" src="logoFoodTruck.jpg" alt="Logo">
+      </a>
+    </div>
     <p-toolbar id="custom-toolbar">
       <ng-template #center>
         <p-iconfield iconPosition="left">

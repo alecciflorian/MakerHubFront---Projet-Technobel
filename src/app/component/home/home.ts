@@ -68,6 +68,7 @@
       newPrice = signal<number>(0);
       newType = signal<string>('');
       truck = this.productsService.selectedTruck;
+      showCriticalQuantityProducts = signal<boolean>(false);
 
 
       ngOnInit(): void {
@@ -79,6 +80,22 @@
     //   this.messageService.add({severity : 'success', summary: 'Succes', detail: 'Produits ajouté avec succès'})
     // }
 
+
+    getCriticalProduct = computed(() => {
+      const allProducts = this.filteredProducts();
+      if(this.showCriticalQuantityProducts()){
+        return allProducts.filter(p => p.quantity < 10);
+      }
+      return allProducts;
+    })
+
+    toggleCriticalQuantityProduct(){
+      return this.showCriticalQuantityProducts.set(!this.showCriticalQuantityProducts());
+    }
+
+    resetProductOnChange(){
+      return this.showCriticalQuantityProducts.set(false);
+    }
 
     lowQuantityProduct = computed(() => {
       return this.productsService.products().filter(p => p.quantity < 10).length;
@@ -186,7 +203,7 @@
     }
 
       loadProduct() : void {
-        this.productsService.getProducts().pipe(delay(1200)).subscribe({
+        this.productsService.getProducts().subscribe({
           next : (data : Products[]) => {
             this.productsService.products.set(data);
             this.products.set(data)

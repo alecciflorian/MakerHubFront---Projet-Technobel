@@ -8,11 +8,11 @@ export class AuthService{
         currentUser = signal <User | null> (null);
         setUser(user : User){
         this.currentUser.set(user)
-        localStorage.setItem('currentUser', JSON.stringify(user))
+        sessionStorage.setItem('currentUser', JSON.stringify(user))
   }
 
   getUser() : User | null{
-    const user = localStorage.getItem('currentUser')
+    const user = sessionStorage.getItem('currentUser')
     if(user){
       const parsedUser = JSON.parse(user);
       this.currentUser.set(parsedUser);
@@ -23,6 +23,6 @@ export class AuthService{
 
    logout() {
     this.currentUser.set(null);
-    localStorage.removeItem('currentUser');
+    sessionStorage.removeItem('currentUser');
   }
 }

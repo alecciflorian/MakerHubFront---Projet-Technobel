@@ -18,7 +18,7 @@
     </div>
   </p-card>
 
-    <p-card class="dashboard-card danger" id="boxDashboardAlert">
+    <p-card (click)="toggleCriticalQuantityProduct()" class="dashboard-card danger" id="boxDashboardAlert">
       <div class="card-content">
         <i class="pi pi-exclamation-triangle"></i>
         <span id="lowQuantitySpan" class="count">{{ lowQuantityProduct() }}</span>
@@ -29,8 +29,7 @@
   <p-card class="dashboard-card success" id="boxDashboardProductAddDate">
       <div class="card-content">
         <i class="pi pi-truck"></i>
-        <span class="count">{{ logo() }}</span>
-        <span class="label">{{ truck() || 'Aucun' }}</span>
+        <span class="label">{{ truck() }}</span>
     </div>
   </p-card>
     </div>
@@ -42,7 +41,7 @@
       </div>
     }
 
-    <p-table [value]="filteredProducts()" [paginator]="true" [rows]="5">
+    <p-table [value]="getCriticalProduct()" [paginator]="true" [rows]="5">
       <ng-template pTemplate="header">
         <tr>
           <th>Nom</th>
