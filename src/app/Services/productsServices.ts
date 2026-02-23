@@ -79,7 +79,6 @@ export class productsService{
         
         //on va chercher le dictionnaire et on choisi le truck
         const allowedCategories = this.truckMapping[truck];
-        console.log("Catégories autorisées pour ce truck :", allowedCategories);
         //sinon on retourne les catégories en fonctions du truck choisi
         if(allowedCategories){
             const filtered = allProduits.filter(p => {

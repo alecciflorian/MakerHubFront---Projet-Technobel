@@ -49,6 +49,7 @@
           <th>Type</th>
           <th>Ajouter</th>
           <th>Supprimer</th>
+          <th>Date des derniers ajouts</th>
         </tr>
       </ng-template>
       <ng-template pTemplate="body" let-product>
@@ -66,6 +67,7 @@
             <p-button (onClick)="showModalAdd(product)" label="Ajouter" severity="success" />
           </td>
           <td><p-button (onClick)="showModalDelete(product)" label="Supprimer" severity="danger" /></td>
+          <td>{{product.lastStockInfo}}</td>
         </tr>
       </ng-template>
     </p-table>

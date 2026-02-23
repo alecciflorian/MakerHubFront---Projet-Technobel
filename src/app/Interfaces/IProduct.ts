@@ -6,4 +6,5 @@ export interface Products {
     category : {
         name : string 
     }
+    lastStockInfo?: string;
 }
